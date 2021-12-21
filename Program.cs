@@ -8,13 +8,11 @@ namespace Backend
     {
         public static MqttController mqttController;
         public static MongoManager mongoManager;
-        public static WebSocketManager socketManager;
 
         public static void Main(string[] args)
         {
             mqttController = new MqttController();
             mongoManager = new MongoManager();
-            //socketManager = new WebSocketManager();
             CreateHostBuilder(args).Build().Run();
         }
 
