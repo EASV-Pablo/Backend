@@ -44,6 +44,7 @@ namespace Backend.Shared
 
                 case "alarm/gps":
                     GPSDto gps = GPSDto.ParseJSONGPSDto(System.Text.Encoding.Default.GetString(e.Message));
+                    Program.mongoManager.saveGPSInfo(gps);
                     byte[] bytes = Encoding.ASCII.GetBytes("Apagar alarma");
                     Program.mqttController.MqttClient.Publish("setings/state", bytes);
                     break;

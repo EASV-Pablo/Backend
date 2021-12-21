@@ -26,5 +26,10 @@ namespace Backend.Shared
         {
             DbClient.GetDatabase("bfvubrzyxkoggzi").GetCollection<SensorDto>("SensorInfo").InsertOne(sensorInfo);
         }
+
+        public void saveGPSInfo(GPSDto gps)
+        {
+            DbClient.GetDatabase("bfvubrzyxkoggzi").GetCollection<GPSDto>("GPSInfo").InsertOne(gps);
+        }
     }
 }
