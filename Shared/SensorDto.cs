@@ -1,5 +1,4 @@
-﻿
-namespace Backend.Dtos
+﻿namespace Backend.Dtos
 {
     public class SensorDto
     {

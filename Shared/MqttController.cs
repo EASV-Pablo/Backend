@@ -1,5 +1,6 @@
 ﻿using Backend.Dtos;
 using System;
+using System.Text;
 using System.Text.Json;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -12,17 +13,17 @@ namespace Backend.Shared
 
         public MqttController()
         {
-            MqttClient = new MqttClient("ad177c20c01e40b5b108caf50bce4ee4.s1.eu.hivemq.cloud", 8883, true, null, null, MqttSslProtocols.TLSv1_2);
+            MqttClient = new MqttClient("mqtt.flespi.io", 1883, false, null, null, MqttSslProtocols.TLSv1_2);
 
             MqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
 
-            string client = Guid.NewGuid().ToString();
+            //string client = Guid.NewGuid().ToString();
 
-            MqttClient.Connect(client, "backendController", "Pass1234");
+            MqttClient.Connect("backend", "matciEEAvNNihYdQwp4tsVPeRENvlfuydNylh2KCEnIL9LqtYkNh4qjLUW460ms1", "");
 
-            MqttClient.Subscribe(new string[] { "temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-            MqttClient.Subscribe(new string[] { "humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-            MqttClient.Subscribe(new string[] { "settings" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+            //MqttClient.Subscribe(new string[] { "temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+            //MqttClient.Subscribe(new string[] { "humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+            MqttClient.Subscribe(new string[] { "alarm/gps" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
         }
 
         static void MqttClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -41,8 +42,10 @@ namespace Backend.Shared
                     Program.socketManager.sendSensorInfo(sensorInfo2);
                     break;
 
-                case "settings":
-                    Console.WriteLine("Settings");
+                case "alarm/gps":
+                    GPSDto gps = GPSDto.ParseJSONGPSDto(System.Text.Encoding.Default.GetString(e.Message));
+                    byte[] bytes = Encoding.ASCII.GetBytes("Apagar alarma");
+                    Program.mqttController.MqttClient.Publish("setings/state", bytes);
                     break;
             }
         }
