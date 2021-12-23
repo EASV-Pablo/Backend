@@ -1,4 +1,6 @@
 ﻿using Backend.Dtos;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -8,6 +10,9 @@ namespace Backend.Shared
     public class MqttController
     {
         public MqttClient MqttClient { get; set; }
+
+        private static long lastNotification = 0;
+        private static int thresholdTime = 60;
 
         public MqttController()
         {
@@ -27,10 +32,20 @@ namespace Backend.Shared
                 case "alarm/gps":
                     GPSDto gps = GPSDto.ParseJSONGPSDto(System.Text.Encoding.Default.GetString(e.Message));
                     Program.mongoManager.saveGPSInfo(gps);
-                    byte[] bytes = Encoding.ASCII.GetBytes("Apagar alarma");
-                    Program.mqttController.MqttClient.Publish("setings/state", bytes);
+                    // byte[] bytes = Encoding.ASCII.GetBytes("Apagar alarma");
+                    // Program.mqttController.MqttClient.Publish("setings/state", bytes);
 
-                    // PUSH NOTIFICATION TO PHONE WITH DATA (IF IS FIRST TIME)
+                    if ( (gps.TimeStamp - lastNotification) > thresholdTime)
+                    {
+                        lastNotification = gps.TimeStamp;
+                        // Lanzar push
+                        FirebaseController fbc = new FirebaseController();
+                        Dictionary<string, string> d = new Dictionary<string, string>();
+                        d.Add("latitude", gps.Latitude.ToString());
+                        d.Add("longitude", gps.Longitude.ToString());
+                        fbc.setMessage(d,"Titulo de la notificacion","Cuerpo de la notificacion");
+                        fbc.sendNotification();
+                    }
 
                     break;
             }
