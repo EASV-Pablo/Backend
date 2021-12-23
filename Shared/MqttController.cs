@@ -1,4 +1,5 @@
 ﻿using Backend.Dtos;
+using System.Collections.Generic;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -17,7 +18,7 @@ namespace Backend.Shared
 
             MqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
 
-            MqttClient.Connect("backendTEST", "IPLpVNmWlgceZThcQirxxJPiv5U0erRK7sXS5aCegCj5jo5ZwmmTUZ2dVK3X2IwX", "");
+            MqttClient.Connect("backend", "matciEEAvNNihYdQwp4tsVPeRENvlfuydNylh2KCEnIL9LqtYkNh4qjLUW460ms1", "");
 
             MqttClient.Subscribe(new string[] { "alarm/gps" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
         }
@@ -31,7 +32,7 @@ namespace Backend.Shared
                     Program.mongoManager.saveGPSInfo(gps);
                     // byte[] bytes = Encoding.ASCII.GetBytes("Apagar alarma");
                     // Program.mqttController.MqttClient.Publish("setings/state", bytes);
-                    /*
+                    
                     if ( (gps.TimeStamp - lastNotification) > thresholdTime)
                     {
                         lastNotification = gps.TimeStamp;
@@ -42,7 +43,7 @@ namespace Backend.Shared
                         d.Add("longitude", gps.Longitude.ToString());
                         fbc.setMessage(d,"Titulo de la notificacion","Cuerpo de la notificacion");
                         fbc.sendNotification();
-                    } */
+                    }
 
                     break;
             }
