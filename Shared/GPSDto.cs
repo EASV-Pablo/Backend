@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Backend.Dtos
@@ -34,6 +35,17 @@ namespace Backend.Dtos
                 }
             }
             return gps;
+        }
+
+        public static string generateJSON(List<GPSDto> list)
+        {
+            string json = JsonConvert.SerializeObject(list);
+            return json;
+        }
+        public static string generateJSON(GPSDto gps)
+        {
+            string json = JsonConvert.SerializeObject(gps);
+            return json;
         }
     }
 }
