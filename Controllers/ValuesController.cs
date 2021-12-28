@@ -14,7 +14,7 @@ namespace Backend.Controllers
             return Content("Hello world Test1");
         }
         
-        [HttpPost("last")]
+        [HttpGet("last")]
         public string GET_LastNPosition([FromQuery] int number, [FromQuery] int time)
         {
             List<GPSDto> list = Program.mongoManager.getLastNGPSSignalsInTime(number, time);
