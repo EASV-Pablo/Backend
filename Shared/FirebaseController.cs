@@ -8,7 +8,7 @@ namespace Backend.Shared
 {
     public class FirebaseController
     {
-        String destinationToken = "eqPlQeJFTxurQk8ggl8WCX:APA91bHCRmJcEKoXaFUdP5GMCigSiQmWYdHhi9QKzrcf4trFKyd1aJpsOKvR4t4gwhF6aC9lUda1CPhCXdrox_LBUPU38iJtelQk0ePcm_-dFK2G_xNNYO-3KpU_DsYb2UvVv2Cm4iFk";
+        String destinationToken = "dW_LZBVjQ0eJjCychkFJs4:APA91bFOL-UZq_-GdvrnKm1AJGEnxsKZVKkcLuW0RNKRhZGycsjA8cObA1hAD2tex0ksIs-a4_7qb1t0Dr35wlm-EWTBAn2k_N2bvnbOvVgRaCmCfbZz6Yy0SpuBYt9u-hYWc_Q_I-r0";
         Message message;
 
         public FirebaseController()
