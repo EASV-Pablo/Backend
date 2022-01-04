@@ -41,7 +41,9 @@ namespace Backend.Shared
                         Dictionary<string, string> d = new Dictionary<string, string>();
                         d.Add("latitude", gps.Latitude.ToString());
                         d.Add("longitude", gps.Longitude.ToString());
-                        fbc.setMessage(d,"Titulo de la notificacion","Cuerpo de la notificacion");
+                        string title = "Your bike is being stoling";
+                        string body = "HURRY! Check the last position HERE.";
+                        fbc.setMessage(d, title, body);
                         fbc.sendNotification();
                     }
 
